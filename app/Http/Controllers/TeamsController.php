@@ -16,8 +16,6 @@ class TeamsController extends Controller
     {
         $teams = Team::all();
 
-         //json_encode(['status' => 200, 'results' => $teams]);
-
         return response()->json($teams, 200);
     }
 
@@ -25,20 +23,19 @@ class TeamsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        if ($request->name){
-            $name = $request->name;
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
 
-           $team = Team::create(['name' => $name]);
+        $team = Team::create(['name' => $request->name]);
 
-           return $team;
-        }
-
-        return response()->json(['error'=> true, 'msg' => 'Name is mandatory'], 500);
+        return response()->json($team);
     }
 
     /**

@@ -8,6 +8,8 @@ class Team extends Model
 {
     protected $fillable = ['name'];
 
+    protected $table = 'team';
+
 
     public function players()
     {
